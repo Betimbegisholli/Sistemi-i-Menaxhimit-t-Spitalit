@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loyalty Token DApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">Local Loyalty Token</a>
+    <button class="btn btn-warning" id="connectWallet">Connect Wallet</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="py-5 text-center bg-primary text-white">
+  <div class="container">
+    <h1>Token i Loyalty për Biznese Lokale</h1>
+    <p>Fito tokena për çdo blerje dhe përdori për zbritje!</p>
+  </div>
+</section>
+
+<!-- BALANCE -->
+<section class="py-5">
+  <div class="container">
+    <div class="card shadow">
+      <div class="card-body text-center">
+        <h4>Balanca Jote</h4>
+        <h2 class="text-success" id="tokenBalance">0 LYT</h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESSES -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <h3 class="mb-4">Bizneset Partnere</h3>
+    <div class="row">
+
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5>Kafe Aroma</h5>
+            <p>1€ = 1 Token</p>
+            <button class="btn btn-primary w-100">Fito Token</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5>Market Fresh</h5>
+            <p>1€ = 2 Token</p>
+            <button class="btn btn-primary w-100">Fito Token</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5>Tech Store</h5>
+            <p>5€ = 5 Token</p>
+            <button class="btn btn-primary w-100">Fito Token</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TRANSACTIONS -->
+<section class="py-5">
+  <div class="container">
+    <h3 class="mb-4">Historiku i Transaksioneve</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Biznesi</th>
+          <th>Token</th>
+        </tr>
+      </thead>
+      <tbody id="transactionHistory">
+        <tr>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white text-center py-3">
+  <p>© 2026 Local Loyalty Token - Blockchain Project</p>
+</footer>
+
+<script>
+async function connectWallet() {
+  if (typeof window.ethereum !== 'undefined') {
+    try {
+      // Kërkon leje nga MetaMask
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts'
+      });
+
+      const account = accounts[0];
+
+      // Shfaq adresën në navbar
+      document.getElementById("connectWallet").innerText =
+        account.substring(0,6) + "..." + account.substring(account.length - 4);
+
+      // Demo balance (këtu më vonë lidhet me smart contract)
+      document.getElementById("tokenBalance").innerText = "120 LYT";
+
+      alert("Wallet Connected: " + account);
+
+    } catch (error) {
+      console.error(error);
+      alert("Connection Failed!");
+    }
+  } else {
+    alert("MetaMask nuk është i instaluar!");
+  }
+}
+
+document.getElementById("connectWallet").addEventListener("click", connectWallet);
+</script>
+
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
